@@ -1,3 +1,5 @@
+# --- START Node boilerplate .gitignore file ---
+
 # Logs
 logs
 *.log
@@ -137,3 +139,38 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# --- END Node boilerplate .gitignore file ---
+
+# -- START IGNORE ---
+
+# --- Root/General ---
+node_modules/
+.DS_Store
+.env
+.env.*
+dist/
+build/
+
+# --- Backend (NestJS) ---
+/backend/dist
+/backend/node_modules
+/backend/npm-debug.log*
+/backend/.env
+
+# --- Frontend (React) ---
+/frontend/node_modules
+/frontend/build
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+
+# --- Logs & Misc ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vscode/
+.idea/
+
+# -- END IGNORE ---
