@@ -1,4 +1,4 @@
-# ![Feed RSS icon](./assets/rss.png) RSS Feeder
+# ![Feed RSS icon](./assets/rss.png) RSS Feed
 
 > TODO: brief description about project
 
