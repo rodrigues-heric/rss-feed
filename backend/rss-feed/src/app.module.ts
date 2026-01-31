@@ -7,7 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [
     MongooseModule.forRoot(
-      process.env.MONGO_URI ?? 'mongodb://localhost/rss-feed',
+      process.env.MONGO_URI ?? 'mongodb://localhost:27017/rss_aggregator',
     ),
     RssModule,
   ],
