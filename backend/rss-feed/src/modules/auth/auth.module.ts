@@ -4,6 +4,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { UsersModule } from '../users/users.module';
+import { AuthController } from './auth.controller';
 
 const ONE_HOUR_MS = 60 * 60 * 1000;
 
@@ -16,6 +17,7 @@ const ONE_HOUR_MS = 60 * 60 * 1000;
       signOptions: { expiresIn: ONE_HOUR_MS },
     }),
   ],
+  controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
   exports: [AuthService],
 })
