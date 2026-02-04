@@ -20,9 +20,23 @@ services:
     networks:
       - rss_network
 
+  ### Go Worker Service ###
+  worker:
+    build: ./workers/go
+    container_name: rss_worker
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/rss_aggregator
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+    depends_on:
+      - mongodb
+      - rabbitmq
+    networks:
+      - rss_network
+
   ### Backend NestJS Service ###
   backend:
     build: ./backend/rss-feed
+    container_name: rss_backend
     ports:
       - "3000:3000"
     volumes:
@@ -41,6 +55,7 @@ services:
   ### Frontend Vite (React) Service ###
   frontend:
     build: ./frontend/rss-feed
+    container_name: rss_frontend
     ports:
       - "5173:5173"
     volumes:
