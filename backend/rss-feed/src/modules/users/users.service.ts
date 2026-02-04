@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/infra/mongodb/schemas/users.schema';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class UsersService {
@@ -15,8 +16,17 @@ export class UsersService {
     return this.userModel.findById(userId).populate('feeds').exec();
   }
 
-  public async createUser(userData: Partial<User>) {
-    const newUser = new this.userModel(userData);
-    return newUser.save();
+  public async createUser(registerDto: RegisterDto) {
+    const { email, password } = registerDto;
+
+    const existingUser = await this.userModel.findOne({ email }).exec();
+    if (existingUser) throw new ConflictException('Email already in use');
+
+    const user = new this.userModel({ email, password });
+    await user.save();
+
+    const userObj: any = user.toObject();
+    delete userObj.password;
+    return userObj;
   }
 }
