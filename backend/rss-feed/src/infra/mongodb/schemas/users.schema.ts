@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'users' })
 export class User extends Document {
   @Prop({ required: true, unique: true, lowercase: true, trim: true })
   email: string;
@@ -27,13 +27,3 @@ UserSchema.pre('save', async function () {
     throw err;
   }
 });
-
-@Schema()
-export class FeedSource extends Document {
-  @Prop({ required: true, unique: true })
-  url: string;
-
-  @Prop()
-  title: string;
-}
-export const FeedSourceSchema = SchemaFactory.createForClass(FeedSource);
