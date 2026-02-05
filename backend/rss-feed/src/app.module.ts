@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
+import { FeedSourceModule } from './modules/feed-source/feed-source.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ConfigModule } from '@nestjs/config/dist/config.module';
     RssModule,
     AuthModule,
     UsersModule,
+    FeedSourceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
