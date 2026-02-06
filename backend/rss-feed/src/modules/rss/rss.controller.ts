@@ -16,6 +16,7 @@ import { TokenRefreshInterceptor } from 'src/common/interceptors/token-refresh.i
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { CreateRssDto } from './dto/create-rss.dto';
 import type { PostRssResponse } from './interfaces/post-rss-response.interface';
+import type { DeleteRssResponse } from './interfaces/delete-rss-response.interface';
 
 @Controller('rss')
 @UseGuards(JwtAuthGuard)
@@ -39,10 +40,12 @@ export class RssController {
     return { success: true, message: 'Feeds fetched successfully' };
   }
 
-  @Delete('feed/:id')
+  @Delete('delete/:id')
   @HttpCode(HttpStatus.OK)
-  public async deleteFeed(@Param('id') id: string): Promise<any> {
-    console.log(`Deleting feed with id: ${id}`);
-    return { success: true, message: 'Feed deleted successfully' };
+  public async deleteFeedFromUser(
+    @GetUser('sub') userId: string,
+    @Param('id') feedId: string,
+  ): Promise<DeleteRssResponse> {
+    return this.rssService.deleteFeedFromUser(userId, feedId);
   }
 }
