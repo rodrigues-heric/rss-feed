@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   ClientProxy,
   ClientProxyFactory,
@@ -8,6 +8,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { FeedSource } from 'src/infra/mongodb/schemas/feed-source.schema';
 import { User } from 'src/infra/mongodb/schemas/users.schema';
+import { DeleteRssResponse } from './interfaces/delete-rss-response.interface';
 
 @Injectable()
 export class RssService {
@@ -61,6 +62,33 @@ export class RssService {
       message: 'Feed added successfully',
       feedId: feedSource._id,
       url: feedSource.url,
+    };
+  }
+
+  public async deleteFeedFromUser(
+    userId: string,
+    feedId: string,
+  ): Promise<DeleteRssResponse> {
+    const userIdObj = new Types.ObjectId(userId);
+    const feedIdObj = new Types.ObjectId(feedId);
+
+    const result = await this.userModel
+      .findByIdAndUpdate(
+        userIdObj,
+        {
+          $pull: { feeds: feedIdObj },
+        },
+        {
+          new: true,
+        },
+      )
+      .exec();
+
+    if (!result) throw new NotFoundException('User not found');
+
+    return {
+      message: 'Feed deleted successfully',
+      feedId: feedIdObj.toString(),
     };
   }
 }
