@@ -12,6 +12,9 @@ import { DeleteRssResponse } from './interfaces/delete-rss-response.interface';
 import { News } from 'src/infra/mongodb/schemas/news.schema';
 import { PostRssResponse } from './interfaces/post-rss-response.interface';
 import { GetNewsResponse } from './interfaces/get-rss-response.interface';
+import { Cron } from '@nestjs/schedule';
+
+const CRON_15_MIN = '0 */15 * * * *';
 
 @Injectable()
 export class RssService {
@@ -33,6 +36,21 @@ export class RssService {
         },
       },
     });
+  }
+
+  @Cron(CRON_15_MIN)
+  private async _handleCronUpdateFeeds(): Promise<void> {
+    const sources = await this.feedModel.find().exec();
+
+    if (sources.length === 0) {
+      return;
+    }
+
+    for (const source of sources) {
+      this.client.emit(this.queueTasks, {
+        url: source.url,
+      });
+    }
   }
 
   public async addFeedToUser(
