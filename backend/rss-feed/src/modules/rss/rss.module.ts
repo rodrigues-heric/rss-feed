@@ -8,6 +8,7 @@ import {
   FeedSourceSchema,
 } from 'src/infra/mongodb/schemas/feed-source.schema';
 import { JwtService } from '@nestjs/jwt';
+import { News, NewsSchema } from 'src/infra/mongodb/schemas/news.schema';
 
 @Module({
   controllers: [RssController],
@@ -16,6 +17,7 @@ import { JwtService } from '@nestjs/jwt';
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: FeedSource.name, schema: FeedSourceSchema },
+      { name: News.name, schema: NewsSchema },
     ]),
   ],
   exports: [RssService],
