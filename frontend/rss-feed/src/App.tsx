@@ -1,5 +1,6 @@
-import type { JSX } from "react";
+import type { JSX } from 'react';
+import { Login } from '@/pages/login.page';
 
 export default function App(): JSX.Element {
-  return <></>;
+  return <Login></Login>;
 }
