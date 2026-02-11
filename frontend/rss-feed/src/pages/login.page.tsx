@@ -9,26 +9,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { LoginHeader } from '@/components/loginHeader.component';
+import { LoginFooter } from '@/components/loginFooter.component';
 import type { JSX } from 'react';
 
 export function Login(): JSX.Element {
-  const currentDate = new Intl.DateTimeFormat('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(new Date());
-
   return (
     <div className="bg-background flex min-h-screen flex-col items-center px-6 pt-12 sm:justify-center sm:pt-0">
-      <header className="mb-10 w-full max-w-100 text-center">
-        <h1 className="border-foreground border-b-4 pb-2 font-serif text-5xl font-black tracking-tighter uppercase hover:cursor-default">
-          RSS Feed
-        </h1>
-        <div className="border-foreground/30 flex items-center justify-between border-b py-1.5 text-[0.6em] font-bold tracking-[0.2em] uppercase">
-          <span className="hover:cursor-default">{currentDate}</span>
-          <span className="hover:cursor-default">Digital</span>
-        </div>
-      </header>
+      <LoginHeader />
 
       <Card className="w-full max-w-100 border-none bg-transparent shadow-none">
         <CardHeader className="px-0 pt-0 text-center sm:text-left">
@@ -90,9 +78,7 @@ export function Login(): JSX.Element {
         </CardFooter>
       </Card>
 
-      <footer className="text-foreground/40 mt-16 mb-8 max-w-75 text-center text-[0.5em] leading-relaxed tracking-[0.3em] uppercase hover:cursor-default">
-        Reliable Information Through Aggregated Streams &copy; 2026
-      </footer>
+      <LoginFooter />
     </div>
   );
 }
