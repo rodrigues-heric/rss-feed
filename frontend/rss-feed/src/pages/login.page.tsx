@@ -12,6 +12,7 @@ import {
 import { LoginHeader } from '@/components/loginHeader.component';
 import { LoginFooter } from '@/components/loginFooter.component';
 import type { JSX } from 'react';
+import { Link } from 'react-router-dom';
 
 export function Login(): JSX.Element {
   return (
@@ -39,7 +40,7 @@ export function Login(): JSX.Element {
             <Input
               id="email"
               type="email"
-              placeholder="correspondent@press.com"
+              placeholder="u@example.com"
               className="border-foreground/30 focus-visible:border-foreground placeholder:text-foreground/20 h-10 rounded-none border-x-0 border-t-0 border-b bg-transparent px-0 text-lg focus-visible:ring-0"
             />
           </div>
@@ -56,7 +57,7 @@ export function Login(): JSX.Element {
             <Input
               id="password"
               type="password"
-              placeholder="***"
+              placeholder="••••••••"
               className="border-foreground/30 focus-visible:border-foreground h-10 rounded-none border-x-0 border-t-0 border-b bg-transparent px-0 focus-visible:ring-0"
             />
           </div>
@@ -70,9 +71,12 @@ export function Login(): JSX.Element {
           <div className="space-y-2 text-center">
             <p className="text-foreground/60 text-xs tracking-tight uppercase hover:cursor-default">
               Don't have an account?{' '}
-              <button className="text-foreground font-black decoration-1 underline-offset-4 hover:cursor-pointer hover:underline">
+              <Link
+                to="/register"
+                className="text-foreground font-black decoration-1 underline-offset-4 hover:cursor-pointer hover:underline"
+              >
                 Register account
-              </button>
+              </Link>
             </p>
           </div>
         </CardFooter>

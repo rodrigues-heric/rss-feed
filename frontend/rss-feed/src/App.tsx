@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
-import { Login } from '@/pages/login.page';
-import { Register } from '@/pages/register.page';
+import { RouterProvider } from 'react-router-dom';
+import { router } from '@/routes/index.routes';
 
 export default function App(): JSX.Element {
-  return <Login></Login>;
+  return <RouterProvider router={router} />;
 }
