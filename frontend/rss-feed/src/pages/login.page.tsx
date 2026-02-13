@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/card';
 import { LoginHeader } from '@/components/loginHeader.component';
 import { LoginFooter } from '@/components/loginFooter.component';
-import { useState, type JSX } from 'react';
+import { useState, useEffect, type JSX } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   type LoginFormData,
@@ -21,10 +21,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { userService } from '@/services/user.service';
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
 
 export function Login(): JSX.Element {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { login, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/home');
+    }
+  }, [isAuthenticated, navigate]);
 
   const {
     register,
@@ -38,7 +46,8 @@ export function Login(): JSX.Element {
     setIsLoading(true);
 
     try {
-      await userService.login(data);
+      const response = await userService.login(data);
+      login(response.user);
       navigate('/home');
     } catch (error: any) {
       const message = error.response?.data?.message || 'Internal Bureau Error';

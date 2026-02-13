@@ -23,10 +23,19 @@ import {
   registerSchema,
 } from '@/interfaces/register.interface';
 import { userService } from '@/services/user.service';
+import { useAuth } from '@/contexts/AuthContext';
+import { useEffect } from 'react';
 
 export function Register(): JSX.Element {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/home');
+    }
+  }, [isAuthenticated, navigate]);
 
   const {
     register,
