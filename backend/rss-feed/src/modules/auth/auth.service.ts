@@ -32,7 +32,13 @@ export class AuthService {
       maxAge: ONE_HOUR_MS,
     });
 
-    return { message: 'Login successful!' };
+    return {
+      message: 'Login successful!',
+      user: {
+        _id: user._id,
+        email: user.email,
+      },
+    };
   }
 
   public async logout(response: ExpressResponse) {
