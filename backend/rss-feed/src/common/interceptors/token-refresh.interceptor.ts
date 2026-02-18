@@ -33,7 +33,7 @@ export class TokenRefreshInterceptor implements NestInterceptor {
 
       if (timeLeft < HALF_HOUR) {
         const newToken = this.jwtService.sign({
-          sub: user.id || user._id,
+          sub: user.sub || user.id,
           email: user.email,
         });
 
