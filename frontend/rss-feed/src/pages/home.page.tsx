@@ -7,9 +7,14 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
+  SidebarHeader,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
 } from '@/components/ui/sidebar';
 import { Sidebar } from '@/components/ui/sidebar';
 import type { PaginationMeta } from '@/interfaces/pagination.interface';
+import { RssIcon } from 'lucide-react';
 
 const FIVE_MINUTES = 1000 * 60 * 5;
 
@@ -38,12 +43,11 @@ export function Home() {
 
   return (
     <SidebarProvider defaultOpen={false}>
-      <Sidebar />
-
+      <AppSidebar />
       <SidebarInset>
         <div className="flex min-h-screen flex-col bg-[#fcfaf7] font-sans text-[#1a1a1a]">
           <div className="sticky top-0 z-10 flex items-center justify-between border-b-2 border-[#1a1a1a] bg-[#fcfaf7]/80 backdrop-blur-sm">
-            <SidebarTrigger className="ml-2 size-9 [&_svg:not([class*='size-'])]:size-7" />
+            <SidebarTrigger className="ml-2 size-9 hover:cursor-pointer [&_svg:not([class*='size-'])]:size-7" />
             <HeaderPagination
               page={page}
               meta={meta}
@@ -137,6 +141,23 @@ export function Home() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+  );
+}
+
+function AppSidebar(): JSX.Element {
+  return (
+    <Sidebar>
+      <SidebarHeader>
+        <h2 className="font-serif text-xl font-black tracking-tighter uppercase">
+          RSS Feed
+        </h2>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>Group 1</SidebarGroup>
+        <SidebarGroup>Group 2</SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>Footer</SidebarFooter>
+    </Sidebar>
   );
 }
 
