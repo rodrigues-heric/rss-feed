@@ -15,6 +15,7 @@ import {
 import { Sidebar, useSidebar } from '@/components/ui/sidebar';
 import type { PaginationMeta } from '@/interfaces/pagination.interface';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/AuthContext';
 
 const FIVE_MINUTES = 1000 * 60 * 5;
 
@@ -146,6 +147,7 @@ export function Home() {
 
 function AppSidebar(): JSX.Element {
   const { toggleSidebar } = useSidebar();
+  const { logout } = useAuth();
 
   return (
     <Sidebar>
@@ -165,7 +167,10 @@ function AppSidebar(): JSX.Element {
         >
           Close
         </Button>
-        <Button className="bg-foreground text-background hover:bg-foreground/90 h-14 w-full rounded-none text-sm font-bold tracking-[0.15em] uppercase transition-all hover:cursor-pointer">
+        <Button
+          onClick={logout}
+          className="bg-foreground text-background hover:bg-foreground/90 h-14 w-full rounded-none text-sm font-bold tracking-[0.15em] uppercase transition-all hover:cursor-pointer"
+        >
           Logout
         </Button>
       </SidebarFooter>
