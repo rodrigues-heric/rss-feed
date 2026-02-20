@@ -12,9 +12,9 @@ import {
   SidebarFooter,
   SidebarGroup,
 } from '@/components/ui/sidebar';
-import { Sidebar } from '@/components/ui/sidebar';
+import { Sidebar, useSidebar } from '@/components/ui/sidebar';
 import type { PaginationMeta } from '@/interfaces/pagination.interface';
-import { RssIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const FIVE_MINUTES = 1000 * 60 * 5;
 
@@ -145,6 +145,8 @@ export function Home() {
 }
 
 function AppSidebar(): JSX.Element {
+  const { toggleSidebar } = useSidebar();
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -153,10 +155,20 @@ function AppSidebar(): JSX.Element {
         </h2>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>Group 1</SidebarGroup>
-        <SidebarGroup>Group 2</SidebarGroup>
+        <SidebarGroup>TODO: group 1</SidebarGroup>
+        <SidebarGroup>TODO: group 2</SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>Footer</SidebarFooter>
+      <SidebarFooter>
+        <Button
+          onClick={toggleSidebar}
+          className="bg-background text-foreground hover:bg-background/90 h-14 w-full rounded-none text-sm font-bold tracking-[0.15em] uppercase transition-all hover:cursor-pointer"
+        >
+          Close
+        </Button>
+        <Button className="bg-foreground text-background hover:bg-foreground/90 h-14 w-full rounded-none text-sm font-bold tracking-[0.15em] uppercase transition-all hover:cursor-pointer">
+          Logout
+        </Button>
+      </SidebarFooter>
     </Sidebar>
   );
 }
