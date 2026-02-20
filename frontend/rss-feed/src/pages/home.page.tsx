@@ -163,7 +163,7 @@ function AppSidebar(): JSX.Element {
       <SidebarFooter>
         <Button
           onClick={toggleSidebar}
-          className="bg-background text-foreground hover:bg-background/90 h-14 w-full rounded-none text-sm font-bold tracking-[0.15em] uppercase transition-all hover:cursor-pointer"
+          className="text-foreground h-14 w-full rounded-none border border-[#1a1a1a] bg-[#fcfaf7] text-sm font-bold tracking-[0.15em] uppercase transition-all hover:cursor-pointer hover:bg-[#fcfaf7]/90"
         >
           Close
         </Button>
