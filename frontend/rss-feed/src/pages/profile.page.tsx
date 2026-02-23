@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   SidebarProvider,
   SidebarInset,
@@ -6,9 +7,44 @@ import {
 import { AppSidebar } from '@/components/appsidebar.component';
 import { Footer } from '@/components/footer.component';
 import { useAuth } from '@/contexts/AuthContext';
+import { rssService } from '@/services/rss.service';
 
 export function Profile() {
-  const { user, feeds } = useAuth();
+  const { user, feeds, setFeeds } = useAuth();
+  const [url, setUrl] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubscribe = async () => {
+    const trimmed = url.trim();
+    if (!trimmed) return;
+
+    setError(null);
+    setIsSubmitting(true);
+    try {
+      const result = await rssService.subscribe(trimmed);
+      setFeeds((prev) => {
+        const alreadyExists = prev.some((f) => f._id === result.feedId);
+        if (alreadyExists) return prev;
+        return [...prev, { _id: result.feedId, url: result.url }];
+      });
+      setUrl('');
+    } catch (err: any) {
+      const msg =
+        err?.response?.data?.message ??
+        'Failed to add feed. Please check the URL.';
+      setError(Array.isArray(msg) ? msg.join(' ') : msg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleUnsubscribe = async (feedId: string) => {
+    try {
+      await rssService.unsubscribe(feedId);
+      setFeeds((prev) => prev.filter((f) => f._id !== feedId));
+    } catch {}
+  };
 
   return (
     <SidebarProvider defaultOpen={false}>
@@ -66,16 +102,34 @@ export function Profile() {
                   <div className="flex gap-2">
                     <input
                       type="url"
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleSubscribe()}
                       placeholder="https://news.org/rss"
-                      className="flex-1 rounded-none border-b-2 border-[#1a1a1a] bg-transparent px-2 py-1 transition-colors outline-none placeholder:italic focus:border-red-800"
+                      disabled={isSubmitting}
+                      className="flex-1 rounded-none border-b-2 border-[#1a1a1a] bg-transparent px-2 py-1 transition-colors outline-none placeholder:italic focus:border-red-800 disabled:opacity-50"
                     />
-                    <button className="border-2 border-[#1a1a1a] bg-[#1a1a1a] px-4 py-1 text-[0.6em] font-bold tracking-tighter text-white uppercase transition-all hover:cursor-pointer hover:bg-transparent hover:text-[#1a1a1a]">
-                      Append
+                    <button
+                      onClick={handleSubscribe}
+                      disabled={isSubmitting || !url.trim()}
+                      className="border-2 border-[#1a1a1a] bg-[#1a1a1a] px-4 py-1 text-[0.6em] font-bold tracking-tighter text-white uppercase transition-all hover:cursor-pointer hover:bg-transparent hover:text-[#1a1a1a] disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {isSubmitting ? 'Adding…' : 'Append'}
                     </button>
                   </div>
+                  {error && (
+                    <p className="text-[0.65em] font-semibold text-red-700">
+                      {error}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-4">
+                  {feeds.length === 0 && (
+                    <p className="text-[0.75em] italic opacity-50">
+                      No sources added yet. Append an RSS URL above.
+                    </p>
+                  )}
                   {feeds.map((feed) => (
                     <div
                       key={feed._id}
@@ -89,7 +143,10 @@ export function Profile() {
                           {feed.url}
                         </p>
                       </div>
-                      <button className="text-[0.6em] font-black tracking-widest text-[#1a1a1a]/40 uppercase transition-colors hover:cursor-pointer hover:text-red-700">
+                      <button
+                        onClick={() => handleUnsubscribe(feed._id)}
+                        className="text-[0.6em] font-black tracking-widest text-[#1a1a1a]/40 uppercase transition-colors hover:cursor-pointer hover:text-red-700"
+                      >
                         [ Terminate ]
                       </button>
                     </div>

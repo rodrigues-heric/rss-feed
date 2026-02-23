@@ -72,6 +72,9 @@ export function Home() {
                 <p className="font-serif text-xl italic">
                   No news items found. Subscribe to some feeds to get started!
                 </p>
+                <p className="font-serif text-xl italic">
+                  Go to your profile page and add some RSS feeds.
+                </p>
               </div>
             ) : (
               <div className="space-y-8 py-8">
