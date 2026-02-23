@@ -5,8 +5,11 @@ import {
 } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/appsidebar.component';
 import { Footer } from '@/components/footer.component';
+import { useAuth } from '@/contexts/AuthContext';
 
 export function Profile() {
+  const { user } = useAuth();
+
   return (
     <SidebarProvider defaultOpen={false}>
       <AppSidebar />
@@ -39,12 +42,12 @@ export function Profile() {
                     Verified Email
                   </span>
                   <p className="font-serif text-xl font-bold break-all">
-                    user@dispatch.com
+                    {user ? user?.email : 'Loading...'}
                   </p>
                 </div>
 
                 <div className="mt-8 border border-dashed border-[#1a1a1a]/30 bg-[#1a1a1a]/5 p-4">
-                  <p className="text-[0.6em] leading-tight italic opacity-70">
+                  <p className="text-[0.7em] leading-tight italic opacity-70">
                     Your credentials grant you access to the automated news
                     gatherer. Sources are polled every 15 minutes.
                   </p>
