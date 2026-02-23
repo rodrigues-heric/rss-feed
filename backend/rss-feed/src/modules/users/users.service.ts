@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/infra/mongodb/schemas/users.schema';
@@ -14,6 +18,18 @@ export class UsersService {
 
   public async getUserWithFeeds(userId: string) {
     return this.userModel.findById(userId).populate('feeds').exec();
+  }
+
+  public async getUserSubscriptions(userId: string) {
+    const user = await this.getUserWithFeeds(userId);
+    if (!user) throw new NotFoundException('User not found');
+
+    const feeds = (user.feeds as any[]).map((f) => ({
+      _id: f._id,
+      url: f.url,
+    }));
+
+    return { feeds };
   }
 
   public async createUser(registerDto: RegisterDto) {

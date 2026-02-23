@@ -8,7 +8,7 @@ import { Footer } from '@/components/footer.component';
 import { useAuth } from '@/contexts/AuthContext';
 
 export function Profile() {
-  const { user } = useAuth();
+  const { user, feeds } = useAuth();
 
   return (
     <SidebarProvider defaultOpen={false}>
@@ -76,9 +76,9 @@ export function Profile() {
                 </div>
 
                 <div className="space-y-4">
-                  {[1, 2, 3].map((_, i) => (
+                  {feeds.map((feed) => (
                     <div
-                      key={i}
+                      key={feed._id}
                       className="group flex items-center justify-between border-b border-[#1a1a1a]/10 pb-3"
                     >
                       <div className="flex flex-col">
@@ -86,7 +86,7 @@ export function Profile() {
                           Active Source
                         </span>
                         <p className="max-w-[250px] truncate font-serif text-lg font-bold sm:max-w-md">
-                          https://theverge.com/rss/index.xml
+                          {feed.url}
                         </p>
                       </div>
                       <button className="text-[0.6em] font-black tracking-widest text-[#1a1a1a]/40 uppercase transition-colors hover:cursor-pointer hover:text-red-700">

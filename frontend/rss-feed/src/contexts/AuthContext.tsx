@@ -6,6 +6,7 @@ import {
   type ReactNode,
 } from 'react';
 import { userService } from '@/services/user.service';
+import type { Feed } from '@/interfaces/feed.interface';
 
 interface User {
   _id: string;
@@ -14,10 +15,12 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  feeds: Feed[];
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (userData: any) => void;
   logout: () => void;
+  setFeeds: React.Dispatch<React.SetStateAction<Feed[]>>;
   checkAuth: () => Promise<void>;
 }
 
@@ -25,14 +28,19 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [feeds, setFeeds] = useState<Feed[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const checkAuth = async () => {
     try {
       const userData = await userService.getMe();
       setUser(userData);
+
+      const { feeds: userFeeds } = await userService.getSubscriptions();
+      setFeeds(userFeeds);
     } catch (error) {
       setUser(null);
+      setFeeds([]);
     } finally {
       setIsLoading(false);
     }
@@ -51,6 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await userService.logout();
     } finally {
       setUser(null);
+      setFeeds([]);
     }
   };
 
@@ -58,10 +67,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
+        feeds,
         isAuthenticated: !!user,
         isLoading,
         login,
         logout,
+        setFeeds,
         checkAuth,
       }}
     >
