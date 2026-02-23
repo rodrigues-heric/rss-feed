@@ -7,15 +7,9 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-  SidebarHeader,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
 } from '@/components/ui/sidebar';
-import { Sidebar, useSidebar } from '@/components/ui/sidebar';
 import type { PaginationMeta } from '@/interfaces/pagination.interface';
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/AuthContext';
+import { AppSidebar } from '@/components/appsidebar.component';
 
 const FIVE_MINUTES = 1000 * 60 * 5;
 
@@ -142,39 +136,6 @@ export function Home() {
         </div>
       </SidebarInset>
     </SidebarProvider>
-  );
-}
-
-function AppSidebar(): JSX.Element {
-  const { toggleSidebar } = useSidebar();
-  const { logout } = useAuth();
-
-  return (
-    <Sidebar>
-      <SidebarHeader>
-        <h2 className="font-serif text-xl font-black tracking-tighter uppercase">
-          RSS Feed
-        </h2>
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>TODO: group 1</SidebarGroup>
-        <SidebarGroup>TODO: group 2</SidebarGroup>
-      </SidebarContent>
-      <SidebarFooter>
-        <Button
-          onClick={toggleSidebar}
-          className="text-foreground h-14 w-full rounded-none border border-[#1a1a1a] bg-[#fcfaf7] text-sm font-bold tracking-[0.15em] uppercase transition-all hover:cursor-pointer hover:bg-[#fcfaf7]/90"
-        >
-          Close
-        </Button>
-        <Button
-          onClick={logout}
-          className="bg-foreground text-background hover:bg-foreground/90 h-14 w-full rounded-none text-sm font-bold tracking-[0.15em] uppercase transition-all hover:cursor-pointer"
-        >
-          Logout
-        </Button>
-      </SidebarFooter>
-    </Sidebar>
   );
 }
 
