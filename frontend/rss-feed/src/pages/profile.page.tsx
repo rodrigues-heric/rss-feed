@@ -47,7 +47,7 @@ export function Profile() {
                 </div>
 
                 <div className="mt-8 border border-dashed border-[#1a1a1a]/30 bg-[#1a1a1a]/5 p-4">
-                  <p className="text-[0.7 em] leading-tight italic opacity-70">
+                  <p className="text-[0.7em] leading-tight italic opacity-70">
                     Your credentials grant you access to the automated news
                     gatherer. Sources are polled every 15 minutes.
                   </p>
