@@ -1,21 +1,16 @@
-import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { Footer } from '@/components/footer.component';
-import { useState, type JSX } from 'react';
+import { useState } from 'react';
 import { newsService } from '@/services/news.service';
 import { useQuery } from '@tanstack/react-query';
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-  SidebarHeader,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
 } from '@/components/ui/sidebar';
-import { Sidebar, useSidebar } from '@/components/ui/sidebar';
-import type { PaginationMeta } from '@/interfaces/pagination.interface';
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/AuthContext';
+import { AppSidebar } from '@/components/appsidebar.component';
+import { FooterPagination } from '@/components/footer-pagination.component';
+import { HeaderPagination } from '@/components/header-pagination.component';
 
 const FIVE_MINUTES = 1000 * 60 * 5;
 
@@ -76,6 +71,9 @@ export function Home() {
               <div className="py-20 text-center">
                 <p className="font-serif text-xl italic">
                   No news items found. Subscribe to some feeds to get started!
+                </p>
+                <p className="font-serif text-xl italic">
+                  Go to your profile page and add some RSS feeds.
                 </p>
               </div>
             ) : (
@@ -142,129 +140,5 @@ export function Home() {
         </div>
       </SidebarInset>
     </SidebarProvider>
-  );
-}
-
-function AppSidebar(): JSX.Element {
-  const { toggleSidebar } = useSidebar();
-  const { logout } = useAuth();
-
-  return (
-    <Sidebar>
-      <SidebarHeader>
-        <h2 className="font-serif text-xl font-black tracking-tighter uppercase">
-          RSS Feed
-        </h2>
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>TODO: group 1</SidebarGroup>
-        <SidebarGroup>TODO: group 2</SidebarGroup>
-      </SidebarContent>
-      <SidebarFooter>
-        <Button
-          onClick={toggleSidebar}
-          className="text-foreground h-14 w-full rounded-none border border-[#1a1a1a] bg-[#fcfaf7] text-sm font-bold tracking-[0.15em] uppercase transition-all hover:cursor-pointer hover:bg-[#fcfaf7]/90"
-        >
-          Close
-        </Button>
-        <Button
-          onClick={logout}
-          className="bg-foreground text-background hover:bg-foreground/90 h-14 w-full rounded-none text-sm font-bold tracking-[0.15em] uppercase transition-all hover:cursor-pointer"
-        >
-          Logout
-        </Button>
-      </SidebarFooter>
-    </Sidebar>
-  );
-}
-
-function HeaderPagination({
-  page,
-  meta,
-  handlePrevPage,
-  handleNextPage,
-  isPlaceholderData,
-}: {
-  page: number;
-  meta: PaginationMeta | undefined;
-  handlePrevPage: () => void;
-  handleNextPage: () => void;
-  isPlaceholderData: boolean;
-}): JSX.Element {
-  return (
-    <>
-      {meta && (
-        <nav className="mr-2 flex items-center justify-between">
-          <button
-            onClick={handlePrevPage}
-            disabled={page === 1 || isPlaceholderData}
-            className="mr-2 flex items-center gap-2 px-4 py-2 text-sm font-bold tracking-widest uppercase transition-all hover:cursor-pointer hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-inherit"
-          >
-            <ChevronLeft size={14} />
-          </button>
-
-          <div className="flex flex-col items-center hover:cursor-default">
-            <span className="text-xs font-bold tracking-widest uppercase">
-              PAGE {meta.page}
-            </span>
-          </div>
-
-          <button
-            onClick={handleNextPage}
-            disabled={!meta.hasNextPage || isPlaceholderData}
-            className="ml-2 flex items-center gap-2 px-4 py-2 text-sm font-bold tracking-widest uppercase transition-all hover:cursor-pointer hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-inherit"
-          >
-            <ChevronRight size={14} />
-          </button>
-        </nav>
-      )}
-    </>
-  );
-}
-
-function FooterPagination({
-  page,
-  meta,
-  handlePrevPage,
-  handleNextPage,
-  isPlaceholderData,
-}: {
-  page: number;
-  meta: PaginationMeta | undefined;
-  handlePrevPage: () => void;
-  handleNextPage: () => void;
-  isPlaceholderData: boolean;
-}): JSX.Element {
-  return (
-    <>
-      {meta && (
-        <nav className="mt-16 flex items-center justify-between border-t border-[#1a1a1a] pt-8">
-          <button
-            onClick={handlePrevPage}
-            disabled={page === 1 || isPlaceholderData}
-            className="flex items-center gap-2 border-2 border-[#1a1a1a] px-4 py-2 text-sm font-bold tracking-widest uppercase transition-all hover:cursor-pointer hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-inherit"
-          >
-            <ChevronLeft size={16} />
-          </button>
-
-          <div className="flex flex-col items-center hover:cursor-default">
-            <span className="text-xs font-bold tracking-widest uppercase">
-              Page {meta.page}
-            </span>
-            <span className="text-muted-foreground font-serif text-[10px] italic">
-              of {meta.lastPage}
-            </span>
-          </div>
-
-          <button
-            onClick={handleNextPage}
-            disabled={!meta.hasNextPage || isPlaceholderData}
-            className="flex items-center gap-2 border-2 border-[#1a1a1a] px-4 py-2 text-sm font-bold tracking-widest uppercase transition-all hover:cursor-pointer hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-inherit"
-          >
-            <ChevronRight size={16} />
-          </button>
-        </nav>
-      )}
-    </>
   );
 }

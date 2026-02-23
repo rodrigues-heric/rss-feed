@@ -1,6 +1,7 @@
 import { api } from '@/lib/api';
 import { type RegisterFormData } from '@/interfaces/register.interface';
 import type { LoginFormData } from '@/interfaces/login.interface';
+import type { Feed } from '@/interfaces/feed.interface';
 
 export const userService = {
   async register(data: Omit<RegisterFormData, 'confirmPassword' | 'name'>) {
@@ -21,6 +22,11 @@ export const userService = {
 
   async getMe() {
     const response = await api.get('/auth/me');
+    return response.data;
+  },
+
+  async getSubscriptions(): Promise<{ feeds: Feed[] }> {
+    const response = await api.get('/users/subscriptions');
     return response.data;
   },
 
