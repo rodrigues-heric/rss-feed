@@ -64,7 +64,7 @@ export function Login(): JSX.Element {
     <div className="flex min-h-screen flex-col bg-[#fcfaf7] font-sans text-[#1a1a1a]">
       <Header />
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center">
+      <main className="flex w-full flex-1 flex-col items-center justify-center px-4">
         <Card className="w-full max-w-100 border-none bg-transparent shadow-none">
           <form onSubmit={handleSubmit(onSubmit)}>
             <CardHeader className="px-0 pt-0 text-center sm:text-left">
