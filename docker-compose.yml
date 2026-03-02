@@ -25,8 +25,8 @@ services:
     build: ./workers/go
     container_name: rss_worker
     environment:
-      - MONGO_URI=mongodb://mongodb:27017/rss_aggregator
-      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - MONGO_URI=${MONGO_URI}
+      - RABBITMQ_URL=${RABBITMQ_URL}
     depends_on:
       - mongodb
       - rabbitmq
@@ -44,8 +44,9 @@ services:
       - /usr/src/app/node_modules
     working_dir: /usr/src/app
     environment:
-      - MONGO_URI=mongodb://mongodb:27017/rss_aggregator
-      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - JWT_SECRET=${JWT_SECRET}
+      - MONGO_URI=${MONGO_URI}
+      - RABBITMQ_URL=${RABBITMQ_URL}
     depends_on:
       - mongodb
       - rabbitmq
