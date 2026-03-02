@@ -13,6 +13,7 @@ import { News } from 'src/infra/mongodb/schemas/news.schema';
 import { PostRssResponse } from './interfaces/post-rss-response.interface';
 import { GetNewsResponse } from './interfaces/get-rss-response.interface';
 import { Cron } from '@nestjs/schedule';
+import { ConfigService } from '@nestjs/config';
 
 const CRON_15_MIN = '0 */15 * * * *';
 
@@ -25,11 +26,12 @@ export class RssService {
     @InjectModel(User.name) private userModel: Model<User>,
     @InjectModel(FeedSource.name) private feedModel: Model<FeedSource>,
     @InjectModel(News.name) private newsModel: Model<News>,
+    private readonly configService: ConfigService,
   ) {
     this.client = ClientProxyFactory.create({
       transport: Transport.RMQ,
       options: {
-        urls: [process.env.RABBITMQ_URL || 'amqp://localhost:5672'],
+        urls: [this.configService.get<string>('RABBITMQ_URL') || ''],
         queue: this.queueTasks,
         queueOptions: {
           durable: true,
