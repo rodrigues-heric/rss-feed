@@ -13,11 +13,25 @@ export function NewPage(): JSX.Element {
   const location = useLocation();
   const item: NewsItem = location.state;
 
-  const title = (itemTitle: string): JSX.Element => {
+  const articleTitle = (itemTitle: string): JSX.Element => {
     return (
       <h2 className="text-justify font-serif text-2xl leading-tight font-bold wrap-break-word hyphens-auto">
         {itemTitle}
       </h2>
+    );
+  };
+
+  const articleDate = (date: string): JSX.Element => {
+    return (
+      <div className="mt-4 flex justify-center border-y border-[#1a1a1a] py-2">
+        <span className="text-[0.8em] font-bold tracking-[0.2em] uppercase opacity-60">
+          {new Date(date).toLocaleDateString(undefined, {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+          })}
+        </span>
+      </div>
     );
   };
 
@@ -31,7 +45,8 @@ export function NewPage(): JSX.Element {
 
         <div className="flex min-h-screen flex-col bg-[#fcfaf7] font-sans text-[#1a1a1a]">
           <main className="mx-auto mt-3 mb-4 w-full max-w-4xl flex-1 px-4">
-            {title(item.title)}
+            {articleTitle(item.title)}
+            {articleDate(item.pubDate)}
           </main>
 
           <Footer />
