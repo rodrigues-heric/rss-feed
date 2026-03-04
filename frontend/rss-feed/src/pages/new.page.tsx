@@ -15,7 +15,7 @@ export function NewPage(): JSX.Element {
 
   const title = (itemTitle: string): JSX.Element => {
     return (
-      <h2 className="line-clamp-2 font-serif text-2xl leading-tight transition-colors group-hover:text-[#555]">
+      <h2 className="text-justify font-serif text-2xl leading-tight font-bold wrap-break-word hyphens-auto">
         {itemTitle}
       </h2>
     );
@@ -30,7 +30,7 @@ export function NewPage(): JSX.Element {
         </div>
 
         <div className="flex min-h-screen flex-col bg-[#fcfaf7] font-sans text-[#1a1a1a]">
-          <main className="mx-auto mb-4 w-full max-w-4xl flex-1 px-4">
+          <main className="mx-auto mt-3 mb-4 w-full max-w-4xl flex-1 px-4">
             {title(item.title)}
           </main>
 
