@@ -98,7 +98,9 @@ export function Home() {
                         </span>
                       </div>
                       <h2 className="line-clamp-2 font-serif text-2xl leading-tight transition-colors group-hover:text-[#555]">
-                        <Link to="/new">{item.title}</Link>
+                        <Link to="/new" state={item}>
+                          {item.title}
+                        </Link>
                       </h2>
                       <p className="line-clamp-3 text-sm leading-relaxed text-[#444]">
                         {item.description}
@@ -109,6 +111,7 @@ export function Home() {
                         </span>
                         <Link
                           to="/new"
+                          state={item}
                           className="inline-flex items-center gap-1 text-[0.6em] font-bold tracking-widest uppercase opacity-60 transition-opacity hover:opacity-100"
                         >
                           Read Story <ExternalLink size={10} />
