@@ -11,6 +11,7 @@ import {
 import { AppSidebar } from '@/components/appsidebar.component';
 import { FooterPagination } from '@/components/footer-pagination.component';
 import { HeaderPagination } from '@/components/header-pagination.component';
+import { Link } from 'react-router-dom';
 
 const FIVE_MINUTES = 1000 * 60 * 5;
 
@@ -85,7 +86,7 @@ export function Home() {
                       className="group flex flex-col space-y-3"
                     >
                       <div className="border-b border-[#1a1a1a] pb-2">
-                        <span className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-60">
+                        <span className="text-[0.6em] font-bold tracking-[0.2em] uppercase opacity-60">
                           {new Date(item.pubDate).toLocaleDateString(
                             undefined,
                             {
@@ -97,29 +98,21 @@ export function Home() {
                         </span>
                       </div>
                       <h2 className="line-clamp-2 font-serif text-2xl leading-tight transition-colors group-hover:text-[#555]">
-                        <a
-                          href={item.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {item.title}
-                        </a>
+                        <Link to="/new">{item.title}</Link>
                       </h2>
                       <p className="line-clamp-3 text-sm leading-relaxed text-[#444]">
                         {item.description}
                       </p>
                       <div className="mt-auto flex items-center justify-between pt-4">
-                        <span className="text-[10px] font-bold italic opacity-70">
-                          {item.author || 'Anonymous'}
+                        <span className="text-[0.6em] font-bold italic opacity-70">
+                          {item.author || ''}
                         </span>
-                        <a
-                          href={item.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[10px] font-bold tracking-widest uppercase opacity-60 transition-opacity hover:opacity-100"
+                        <Link
+                          to="/new"
+                          className="inline-flex items-center gap-1 text-[0.6em] font-bold tracking-widest uppercase opacity-60 transition-opacity hover:opacity-100"
                         >
                           Read Story <ExternalLink size={10} />
-                        </a>
+                        </Link>
                       </div>
                     </article>
                   ))}
