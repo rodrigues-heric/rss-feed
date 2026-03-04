@@ -35,6 +35,23 @@ export function NewPage(): JSX.Element {
     );
   };
 
+  const articleAuthor = (author: string | undefined): JSX.Element => {
+    return (
+      <>
+        {author ? (
+          <div className="mt-auto flex items-center justify-end pt-4">
+            <span className="text-[0.9em] font-bold italic opacity-70">
+              {'— '}
+              {author || 'Heric L. Rodrigues'}
+            </span>
+          </div>
+        ) : (
+          <></>
+        )}
+      </>
+    );
+  };
+
   return (
     <SidebarProvider defaultOpen={false}>
       <AppSidebar />
@@ -47,6 +64,7 @@ export function NewPage(): JSX.Element {
           <main className="mx-auto mt-3 mb-4 w-full max-w-4xl flex-1 px-4">
             {articleTitle(item.title)}
             {articleDate(item.pubDate)}
+            {articleAuthor(item.author)}
           </main>
 
           <Footer />
