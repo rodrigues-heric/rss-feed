@@ -22,6 +22,8 @@ export function NewPage(): JSX.Element {
   };
 
   const articleDate = (date: string): JSX.Element => {
+    console.log(date);
+
     return (
       <div className="mt-4 flex justify-center border-y border-[#1a1a1a] py-2">
         <span className="text-[0.8em] font-bold tracking-[0.2em] uppercase opacity-60">
@@ -29,6 +31,8 @@ export function NewPage(): JSX.Element {
             month: 'short',
             day: 'numeric',
             year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
           })}
         </span>
       </div>
@@ -41,8 +45,7 @@ export function NewPage(): JSX.Element {
         {author ? (
           <div className="mt-auto flex items-center justify-end pt-4">
             <span className="text-[0.9em] font-bold italic opacity-70">
-              {'— '}
-              {author || 'Heric L. Rodrigues'}
+              {`— ${author}`}
             </span>
           </div>
         ) : (
@@ -53,7 +56,12 @@ export function NewPage(): JSX.Element {
   };
 
   const articleBody = (content: string): JSX.Element => {
-    return <p className="mt-4 text-sm leading-relaxed text-[#444]"></p>;
+    return (
+      <p
+        className="mt-4 text-justify text-[1em] leading-relaxed wrap-break-word hyphens-auto text-[#444]"
+        dangerouslySetInnerHTML={{ __html: content }}
+      ></p>
+    );
   };
 
   return (
