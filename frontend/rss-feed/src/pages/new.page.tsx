@@ -52,6 +52,10 @@ export function NewPage(): JSX.Element {
     );
   };
 
+  const articleBody = (content: string): JSX.Element => {
+    return <p className="mt-4 text-sm leading-relaxed text-[#444]"></p>;
+  };
+
   return (
     <SidebarProvider defaultOpen={false}>
       <AppSidebar />
@@ -64,6 +68,7 @@ export function NewPage(): JSX.Element {
           <main className="mx-auto mt-3 mb-4 w-full max-w-4xl flex-1 px-4">
             {articleTitle(item.title)}
             {articleDate(item.pubDate)}
+            {articleBody(item.content)}
             {articleAuthor(item.author)}
           </main>
 

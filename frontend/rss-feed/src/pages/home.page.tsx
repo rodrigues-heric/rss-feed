@@ -103,7 +103,7 @@ export function Home() {
                         </Link>
                       </h2>
                       <p className="line-clamp-3 text-sm leading-relaxed text-[#444]">
-                        {item.description}
+                        {item.content}
                       </p>
                       <div className="mt-auto flex items-center justify-between pt-4">
                         <span className="text-[0.6em] font-bold italic opacity-70">
