@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"net/http"
 	"os"
 	"time"
 
@@ -59,6 +60,27 @@ func processFeed(url string, client *mongo.Client, fp *gofeed.Parser) {
 	log.Printf("[Success] Feed [%s] finished. %d news processed.", feed.Title, len(feed.Items))
 }
 
+// Web service workaround
+func startHealthCheck() {
+	go func() {
+        http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+            w.WriteHeader(http.StatusOK)
+            w.Write([]byte("I am alive!"))
+        })
+
+        port := os.Getenv("PORT")
+        if port == "" {
+            port = "10000"
+        }
+        
+        log.Printf("Health check server running on port %s...", port)
+
+        if err := http.ListenAndServe("0.0.0.0:"+port, nil); err != nil {
+            log.Fatalf("Failed to start health check: %v", err)
+        }
+    }()
+}
+
 func main() {
 	mongoURI := os.Getenv("MONGO_URI")
 	rabbitURL := os.Getenv("RABBITMQ_URL")
@@ -87,6 +109,8 @@ func main() {
 	ch.Qos(10, 0, false)
 
 	msgs, _ := ch.Consume(q.Name, "", true, false, false, false, nil)
+
+	startHealthCheck()
 
 	fp := gofeed.NewParser()
 	log.Println("Worker ready!")
