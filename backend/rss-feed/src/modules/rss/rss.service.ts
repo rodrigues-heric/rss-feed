@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import {
   ClientProxy,
   ClientProxyFactory,
@@ -16,6 +20,7 @@ import { Cron } from '@nestjs/schedule';
 import { ConfigService } from '@nestjs/config';
 
 const CRON_15_MIN = '0 */15 * * * *';
+const CRON_MIDNIGHT = '0 0 * * *';
 
 @Injectable()
 export class RssService {
@@ -52,6 +57,27 @@ export class RssService {
       this.client.emit(this.queueTasks, {
         url: source.url,
       });
+    }
+  }
+
+  @Cron(CRON_MIDNIGHT)
+  private async _handleNewsTableClean(): Promise<void> {
+    try {
+      const oneDayAgo = new Date();
+      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+
+      await this.newsModel
+        .deleteMany({
+          pubDate: { $lt: oneDayAgo },
+        })
+        .exec();
+    } catch (error) {
+      console.log(
+        '[CRON] An error occurred while running the News table cleaning',
+      );
+      throw new InternalServerErrorException(
+        '[CRON] An error occurred while running the News table cleaning',
+      );
     }
   }
 
