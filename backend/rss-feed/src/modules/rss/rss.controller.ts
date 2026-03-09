@@ -19,6 +19,7 @@ import type { PostRssResponse } from './interfaces/post-rss-response.interface';
 import type { DeleteRssResponse } from './interfaces/delete-rss-response.interface';
 import { Query } from '@nestjs/common';
 import { GetNewsResponse } from './interfaces/get-rss-response.interface';
+import { ApiResponse, ApiCookieAuth } from '@nestjs/swagger';
 
 @Controller('rss')
 @UseGuards(JwtAuthGuard)
@@ -26,6 +27,11 @@ import { GetNewsResponse } from './interfaces/get-rss-response.interface';
 export class RssController {
   constructor(private readonly rssService: RssService) {}
 
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'The user subscribed successfully to the source.',
+  })
+  @ApiCookieAuth()
   @Post('subscribe')
   @HttpCode(HttpStatus.CREATED)
   public async postSubscribeUrl(
@@ -35,6 +41,11 @@ export class RssController {
     return this.rssService.addFeedToUser(userId, createRssDto.url);
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'News fecthed successfully.',
+  })
+  @ApiCookieAuth()
   @Get('news')
   @HttpCode(HttpStatus.OK)
   public async getNews(
@@ -45,6 +56,11 @@ export class RssController {
     return this.rssService.getNewsForUser(userId, pageNumber);
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Feed source deleted successfully.',
+  })
+  @ApiCookieAuth()
   @Delete('delete/:id')
   @HttpCode(HttpStatus.OK)
   public async deleteFeedFromUser(

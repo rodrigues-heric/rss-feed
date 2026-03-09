@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,6 +20,16 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  const configSwagger = new DocumentBuilder()
+    .setTitle('RSS Feed')
+    .setDescription('Feed RSS aggregator API')
+    .setVersion('1.0.0')
+    .addCookieAuth('session-id')
+    .build();
+  const documentSwaggerFactory = () =>
+    SwaggerModule.createDocument(app, configSwagger);
+  SwaggerModule.setup('api', app, documentSwaggerFactory);
 
   await app.listen(process.env.NEST_PORT ?? 3000);
 }
