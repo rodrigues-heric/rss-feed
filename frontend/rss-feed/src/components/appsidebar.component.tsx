@@ -45,14 +45,6 @@ export function AppSidebar(): JSX.Element {
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
-
-          <h3 className="mt-4 text-xs font-bold tracking-widest uppercase opacity-60">
-            Themes
-          </h3>
-
-          <h3 className="mt-4 text-xs font-bold tracking-widest uppercase opacity-60">
-            Languages
-          </h3>
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter>
