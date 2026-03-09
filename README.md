@@ -68,13 +68,12 @@ The application follows a **polyglot microservices architecture** with three mai
 
 ```mermaid
 graph LR
-    A[React Frontend<br/>Port 5173] -->|HTTP/REST| B[NestJS Backend<br/>Port 3000]
-    B -->|JWT Auth| B
-    B -->|Queue Jobs| C[RabbitMQ<br/>Port 5672]
+    A[React Frontend] <-->|HTTP/REST| B[NestJS Backend]
+    B -->|Queue Jobs| C[RabbitMQ]
     C -->|Consume Jobs| D[Go Worker]
-    D -->|Read/Write| E[(MongoDB<br/>Port 27017)]
-    B -->|Query| E
-    A -->|Query| B
+    D -->|Read/Write| E[MongoDB]
+    B <-->|Query| E
+    A <-->|Query| B
 ```
 
 ### Tech stack and decisions
@@ -169,7 +168,7 @@ docker compose up --build
 # Access the application:
 # - Frontend: http://localhost:5173
 # - Backend API: http://localhost:3000
-# - API Docs: http://localhost:3000/api/docs
+# - API Docs: http://localhost:3000/api/
 # - RabbitMQ Dashboard: http://localhost:15672 (guest/guest)
 ```
 
