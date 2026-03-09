@@ -16,11 +16,17 @@ import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { LoginDto } from './dto/login.dto';
 import type { AuthenticatedUser } from './interfaces/authenticated-user.interface';
 import { TokenRefreshInterceptor } from 'src/common/interceptors/token-refresh.interceptor';
+import { ApiResponse, ApiCookieAuth } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The user is logged in.',
+  })
+  @ApiCookieAuth()
   @Get('me')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
@@ -29,6 +35,10 @@ export class AuthController {
     return user;
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The user logged in successfully.',
+  })
   @Post('login')
   @HttpCode(HttpStatus.OK)
   public async login(
@@ -38,6 +48,11 @@ export class AuthController {
     return this.authService.login(loginDto.email, loginDto.password, response);
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The user logged out successfully.',
+  })
+  @ApiCookieAuth()
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
