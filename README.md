@@ -29,7 +29,7 @@ An RSS aggregator platform that enables users to subscribe to multiple RSS feeds
 
 ### Demo
 
-TODO: add product video demo
+https://github.com/user-attachments/assets/2232fafa-b2f3-4d48-bbae-180e181b2af2
 
 ### Project delivery
 
