@@ -40,7 +40,7 @@ export class TokenRefreshInterceptor implements NestInterceptor {
         response.cookie('access_token', newToken, {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
-          sameSite: 'lax',
+          sameSite: 'none',
           maxAge: ONE_HOUR_MS,
         });
       }
