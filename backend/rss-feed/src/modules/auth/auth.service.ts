@@ -28,7 +28,7 @@ export class AuthService {
     response.cookie('access_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'none',
       maxAge: ONE_HOUR_MS,
     });
 
@@ -45,7 +45,7 @@ export class AuthService {
     response.clearCookie('access_token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'none',
     });
 
     return { message: 'Logout successful!' };

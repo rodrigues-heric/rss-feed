@@ -47,6 +47,7 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - MONGO_URI=${MONGO_URI}
       - RABBITMQ_URL=${RABBITMQ_URL}
+      - PORT=${PORT}
     depends_on:
       - mongodb
       - rabbitmq
